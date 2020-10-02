@@ -1,7 +1,8 @@
-
 import requests
 import logging
 import json
+
+__version__ = 2.1.0
 
 # Create Logger. Name will be the filename 'pyOpenHabComm'
 OHLogger = logging.getLogger(__name__)
@@ -47,32 +48,3 @@ class OPENHABCOMM():
         except requests.RequestException as e:
             OHLogger.error ("Request: General Error")
             OHLogger.error (str(e))
-        
-
-# Testing
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    OHLogger.info("pyOPenHabComm test script started")
-    from time import sleep
-    from dotenv import load_dotenv
-    import os
-
-    if not os.path.exists("./.env"):
-        OHLogger.error(".env file not found")
-        sys.exit(1)
-    try:
-        load_dotenv(verbose=True)  # loads .env file in current directoy
-    except:
-        OHLogger.error("Error loading .env file")
-        sys.exit(2)
-    U = os.getenv('URL')
-    I = os.getenv('OHItem')
-    h = OPENHABCOMM(U, os.getenv('User'), os.getenv('Pass'))
-
-    h.sendItemCommand(I,"67")  # Turn on to 67%
-    sleep(.250)
-    OHLogger.info(h.getItemStatus(I))
-    sleep(1.250)
-    h.sendItemCommand(I,"0")    # Turn off
-    sleep(.250)
-    OHLogger.info(h.getItemStatus(I))

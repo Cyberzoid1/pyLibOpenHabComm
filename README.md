@@ -1,2 +1,2 @@
 # pyLibOpenHabComm
-Connector library for OpenHab
+REST API connector library for OpenHab
