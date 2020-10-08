@@ -2,9 +2,9 @@ import requests
 import logging
 import json
 
-__version__ = 2.02
+__version__ = '2.3.0'
 
-# Create Logger. Name will be the filename 'pyOpenHabComm'
+# Create Logger.
 OHLogger = logging.getLogger(__name__)
 OHLogger.setLevel(logging.DEBUG) # default level
 
@@ -51,7 +51,9 @@ class OPENHABCOMM():
         except requests.RequestException as e:
             OHLogger.error ("Request: General Error")
             OHLogger.error (str(e))
-        #return (myresponce.status_code, myresponce.json())
+        OHLogger.debug("LSend: " + str(myresponce.status_code))
+        print ("Send: " + str(myresponce.status_code) + "<")
+        return myresponce.status_code
 
     def getItemStatus(self, item):
         try:
@@ -59,6 +61,7 @@ class OPENHABCOMM():
             myresponce = self.session.get(self.url + 'items/' + item)
             OHLogger.debug("Item value: %r" % myresponce.text)
             return myresponce.json()
+            #return (myresponce.status_code, myresponce.json())
         except (requests.ConnectTimeout, requests.ConnectionError) as e:
             OHLogger.error ("Connection error")
             OHLogger.error(str(e))

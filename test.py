@@ -6,7 +6,7 @@ import pyLibOpenHabComm
 
 # Create logger
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG) # default level
+logger.setLevel(logging.INFO)   # Sets default logging level for all modules
 logger.info("pyOPenHabComm test script started")
 
 # Create formatter
@@ -14,10 +14,12 @@ formatter = logging.Formatter('[%(asctime)s] [%(levelname)-5s] [%(name)s] - %(me
 
 # Logger: create console handle
 ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)     # set logging level for consol
+ch.setLevel(logging.DEBUG)     # set logging level for console
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+# Set logging level of library
+logging.getLogger("pyLibOpenHabComm").setLevel(logging.DEBUG)
 # Load .env file
 try:
     env.read_envfile('.env')
@@ -32,8 +34,11 @@ try:
 except Exception as e:
     print ("Error loading environment variables")
     print(e)
+    logging.shutdown()
     sys.exit(2)
 
+logger.info("Hello there")  # Logger output testing
+logger.debug("Hello there with debugging")
 responce = []
 h.sendItemCommand(I,"ON")  # Turn on
 sleep(.250)
